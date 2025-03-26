@@ -33,7 +33,6 @@ jobs:
 
     - name: Run tests
       run: pytest
-
   build-and-publish:
     needs: build-and-test
     runs-on: ubuntu-latest
