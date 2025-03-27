@@ -70,6 +70,7 @@ jobs:
         host: ${{ secrets.DO_HOST }}
         username: ${{ secrets.DO_USER }}
         key: ${{ secrets.DO_SSH_PRIVATE_KEY }}
+        
         script: | 
           docker pull ${{ secrets.DOCKER_USERNAME }}/flasktest-app:latest
           docker stop flask_container || true
