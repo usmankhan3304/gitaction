@@ -66,11 +66,16 @@ jobs:
     steps:
     - name: Deploy to DigitalOcean
       uses: appleboy/ssh-action@v0.1.6
-      
+
       with:
         host: ${{ secrets.DO_HOST }}
         username: ${{ secrets.DO_USER }}
         key: ${{ secrets.DO_SSH_PRIVATE_KEY }}
+    - name: Check SSH Key
+      run: |
+        echo "Checking SSH Key"
+        echo "${{ secrets.DO_SSH_PRIVATE_KEY }}" | wc -l
+
 
         script: | 
           docker pull ${{ secrets.DOCKER_USERNAME }}/flasktest-app:latest
