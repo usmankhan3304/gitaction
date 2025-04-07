@@ -64,23 +64,24 @@ jobs:
     needs: build-and-publish
     runs-on: ubuntu-latest
     steps:
-      - name: Deploy to DigitalOcean
-        uses: appleboy/ssh-action@v0.1.6
-        with:
-          host: ${{ secrets.DO_HOST }}
-          username: ${{ secrets.DO_USER }}
-          key: ${{ secrets.DO_SSH_PRIVATE_KEY }}
-      - name: Check SSH Key
-        run: |
-          echo "Checking SSH Key"
-          echo "${{ secrets.DO_SSH_PRIVATE_KEY }}" | wc -l
-      - name: Deploy container to DigitalOcean
-        run: |
-          docker pull ${{ secrets.DOCKER_USERNAME }}/flasktest-app:latest
-          docker ps -q -f name=flask_container | grep -q . && docker stop flask_container || true
-          docker ps -a -q -f name=flask_container | grep -q . && docker rm flask_container || true
-          docker run -d -p 5000:5000 --name flask_container ${{ secrets.DOCKER_USERNAME }}/flasktest-app:latest
+    - name: Deploy to DigitalOcean
+      uses: appleboy/ssh-action@v0.1.6
 
+      with:
+        host: ${{ secrets.DO_HOST }}
+        username: ${{ secrets.DO_USER }}
+        key: ${{ secrets.DO_SSH_PRIVATE_KEY }}
+    - name: Check SSH Key
+      run: |
+        echo "Checking SSH Key"
+        echo "${{ secrets.DO_SSH_PRIVATE_KEY }}" | wc -l
+
+
+        script: | 
+          docker pull ${{ secrets.DOCKER_USERNAME }}/flasktest-app:latest
+          docker stop flask_container || true
+          docker rm flask_container || true
+          docker run -d -p 5000:5000 --name flask_container ${{ secrets.DOCKER_USERNAME }}/flasktest-app:latest
 
 
 
