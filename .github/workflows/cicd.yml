@@ -78,11 +78,8 @@ jobs:
     - name: Deploy the Flask App
       run: |
         docker pull ${{ secrets.DOCKER_USERNAME }}/flasktest-app:latest
-        docker stop flask_container || true
-        docker rm flask_container || true
+        if [ $(docker ps -aq -f name=flask_container) ]; then
+          docker stop flask_container || true
+          docker rm flask_container || true
+        fi
         docker run -d -p 5000:5000 --name flask_container ${{ secrets.DOCKER_USERNAME }}/flasktest-app:latest
-
-
-
-
-
