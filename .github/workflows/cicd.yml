@@ -12,7 +12,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Build The Docker Image
-      run: docker build . --file DockerFile --tag workflow-test:$(date +%s)
+      run: docker build . --file DockerFile --tag workflow- :$(date +%s)
 
   build-and-test:
     runs-on: ubuntu-latest
@@ -84,7 +84,6 @@ jobs:
           docker stop flask_container_v2 || true
           docker rm flask_container_v2 || true
         fi
-
         # Run the new container on a different port (5051 in this case)
         docker run -d -p 5051:5000 --name flask_container_v2 ${{ secrets.DOCKER_USERNAME }}/flasktest-app:latest
 
