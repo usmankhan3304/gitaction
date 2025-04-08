@@ -82,4 +82,4 @@ jobs:
           docker stop flask_container || true
           docker rm flask_container || true
         fi
-        docker run -d -p 5000:5000 --name flask_container ${{ secrets.DOCKER_USERNAME }}/flasktest-app:latest
+        docker run -d -p 5050:5000 --name flask_container_v2 ${{ secrets.DOCKER_USERNAME }}/flasktest-app:latest
