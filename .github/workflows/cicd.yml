@@ -78,8 +78,13 @@ jobs:
     - name: Deploy the Flask App
       run: |
         docker pull ${{ secrets.DOCKER_USERNAME }}/flasktest-app:latest
-        if [ $(docker ps -aq -f name=flask_container) ]; then
-          docker stop flask_container || true
-          docker rm flask_container || true
+
+        # Stop and remove any existing container (if necessary)
+        if [ $(docker ps -aq -f name=flask_container_v2) ]; then
+          docker stop flask_container_v2 || true
+          docker rm flask_container_v2 || true
         fi
-        docker run -d -p 5050:5000 --name flask_container_v2 ${{ secrets.DOCKER_USERNAME }}/flasktest-app:latest
+
+        # Run the new container on a different port (5051 in this case)
+        docker run -d -p 5051:5000 --name flask_container_v2 ${{ secrets.DOCKER_USERNAME }}/flasktest-app:latest
+
